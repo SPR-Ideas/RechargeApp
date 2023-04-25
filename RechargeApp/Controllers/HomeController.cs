@@ -51,8 +51,26 @@ namespace RechargeApp.Controllers
             }
             return null;
         }
-
         [HttpGet]
+        public IActionResult SignUp()
+        {
+            return View();
+        }
+
+        [HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> SignUp([Bind("id,Name,PhoneNumber,password,Role")] User user)
+		{
+			if (ModelState.IsValid)
+			{
+				_context.Add(user);
+				await _context.SaveChangesAsync();
+				return RedirectToAction(nameof(login));
+			}
+			return View(user);
+		}
+
+		[HttpGet]
         public IActionResult login() {
             return View();
         }
