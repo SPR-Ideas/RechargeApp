@@ -1,0 +1,70 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<style>
+
+    .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        margin: 10px;
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+        .btn:hover {
+            background-color: #3e8e41;
+        }
+
+        .btn:active {
+            background-color: #4CAF50;
+            box-shadow: 0 5px #666;
+            transform: translateY(4px);
+        }
+
+    .btn-container {
+        display: flex;
+        justify-content: center;
+    }
+
+    .btn {
+        margin: 0 10px;
+    }
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 35vh;
+    }
+</style>
+
+<div class="container">
+    <h2>Hello ,@ViewBag.user.Name </h2>
+    <br><br>
+    
+    <div class="btn-container">
+        <div>
+            <a href="@Url.Action("Index", "Users")" class="btn btn-primary">View Users</a>
+        </div>
+
+        <div>
+            <a href="@Url.Action("Index", "RechargeTables")" class="btn btn-primary">View recharge</a>
+        </div>
+
+        <div>
+            <a href="@Url.Action("Index", "PlanTables")" class="btn btn-danger">View Plans</a>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,144 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model RechargeApp.Models.PlanTable
+
+@{
+}
+
+<style>table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 1rem;
+  background-color: transparent;
+  font-size: 0.9rem;
+}
+
+thead {
+  background-color: #f8f9fa;
+}
+
+th,
+td {
+  padding: 0.75rem;
+  text-align: center;
+  vertical-align: middle;
+}
+
+th {
+  font-weight: bold;
+}
+
+tbody tr:nth-of-type(even) {
+  background-color: #f8f9fa;
+}
+
+tbody tr:hover {
+  background-color: #dee2e6;
+}
+
+.validity {
+  font-weight: bold;
+  color: green;
+}
+
+.invalid {
+  font-weight: bold;
+  color: red;
+}
+.container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.2);
+    margin: 0 auto;
+    width: 800px;
+    margin-top: 50px;
+
+}
+</style>
+
+<style>/* Style the table */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+/* Style the table header */
+.table th {
+    background-color:#007bff
+    color: #fff
+    font-weight: bold;
+    padding: 10px;
+    text-align: center;
+}
+
+/* Style the table rows */
+.table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+/* Style the "Select Plan" button */
+.btn {
+    display: inline-block;
+    background-color: #007bff;
+    color: #fff;
+    font-weight: bold;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+/* Hover state for the "Select Plan" button */
+.btn:hover {
+    background-color: #005050;
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.2);
+    margin: 0 auto;
+    width: 1200px;
+    margin-top: 50px;
+}
+</style>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Plan Name</th>
+            <th>Amount</th>
+            <th>Validity</th>
+            <th>Description</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var plan in ViewBag.plantables)
+        {
+            <tr>
+                <td>@plan.Name</td>
+                <td>@plan.amount</td>
+                <td>@plan.validity</td>
+                <td>@plan.description</td>
+                <td>
+                    <form action="" method="post">
+                        <div class="input-group " style="margin-right:2rem !important;">
+                            <input type="text" hidden value="@plan.Id" name="planId"  >
+                            <input class="btn btn-primary" type="submit" value="Recharge"> 
+                        </div>
+
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

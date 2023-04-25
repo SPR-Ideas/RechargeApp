@@ -12,8 +12,8 @@ using RechargeApp.Data;
 namespace RechargeApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230425042157_intital-migration")]
-    partial class intitalmigration
+    [Migration("20230425045138_firstMigration")]
+    partial class firstMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -76,11 +76,21 @@ namespace RechargeApp.Migrations
 
             modelBuilder.Entity("RechargeApp.Models.User", b =>
                 {
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(450)")
-                        .HasColumnName("PhoneNumber");
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -88,7 +98,7 @@ namespace RechargeApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("PhoneNumber");
+                    b.HasKey("id");
 
                     b.ToTable("Users");
                 });
