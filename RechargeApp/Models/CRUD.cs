@@ -1,15 +1,18 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using RechargeApp.Data;
+using System.Linq.Expressions;
 
 namespace RechargeApp.Models
 {
     public class CRUD
     {
         private readonly ApplicationDbContext _context;
-        
-        public CRUD(ApplicationDbContext configuration) 
+        private readonly IConfiguration _configuration;
+        public CRUD(ApplicationDbContext context,IConfiguration configuration)
         {
-            _context = configuration;
+            _context = context;
+            _configuration = configuration;
         }
 
         public async Task<User> VerifyLogin(User user) 
@@ -39,6 +42,44 @@ namespace RechargeApp.Models
             _context.Add(rechargeTable);
             await _context.SaveChangesAsync();
             
+        }
+
+        public List<RechargeHistory> getRechargeHistory(int userid)
+        {
+            List<RechargeHistory> recharges = new List<RechargeHistory>();
+            try 
+            {
+                using (SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("localDb")))
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand(
+                        "SELECT * FROM  rechargeTables " +
+                        "JOIN planTables  ON planTables.id = rechargeTables.planId " +
+                        $"where rechargeTables.userId = {userid}",
+                        connection
+                       );
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read()) 
+                    {
+                        RechargeHistory recharge = new RechargeHistory();
+                        recharge.Id = reader.GetInt32(0);
+                        recharge.description = (string) reader["description"];
+                        recharge.name = (string)reader["Name"];
+                        recharge.price = (double)reader["amount"];
+                        recharge.validity = (int)reader["validity"];
+                        recharge.timestamp = (DateTime)reader["timestamp"];
+                        recharges.Add(recharge);
+
+                    }
+
+                }
+                
+            }
+            catch(SqlException e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            return recharges;
         }
 
     }

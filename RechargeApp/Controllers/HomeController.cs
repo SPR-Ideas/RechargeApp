@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using RechargeApp.Data;
 using RechargeApp.Models;
@@ -22,7 +23,7 @@ namespace RechargeApp.Controllers
         public HomeController(ApplicationDbContext context,IConfiguration configuration)
         {
             _context = context;
-            _crud = new CRUD(_context);
+            _crud = new CRUD(_context,configuration);
             _configuration = configuration;
         }
 
@@ -122,6 +123,7 @@ namespace RechargeApp.Controllers
             List<PlanTable> planTable = await _crud.getAllPlans();
 
             ViewBag.user = _user;
+            ViewBag.userId = Convert.ToString(_user.id);
             ViewBag.planTables = planTable;
 
             return View();
@@ -166,6 +168,17 @@ namespace RechargeApp.Controllers
         
         public IActionResult Privacy()
         {
+            return View();
+        }
+
+        [Authorize(Roles ="User", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> Recharges() {
+            User user = getCurrentUser();
+            List<RechargeHistory> recharges = _crud.getRechargeHistory(user.id); 
+           
+            ViewBag.userId = user.id;
+            ViewBag.Recharges = recharges;
+
             return View();
         }
 

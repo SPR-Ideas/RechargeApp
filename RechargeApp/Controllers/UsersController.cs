@@ -15,8 +15,7 @@ using RechargeApp.Models;
 namespace RechargeApp.Controllers
 {
     //[Authorize(Role,AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [Authorize(Roles = "Admin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-
+   
     public class UsersController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -28,6 +27,8 @@ namespace RechargeApp.Controllers
 
 
         // GET: Users
+        [Authorize(Roles = "Admin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+
         public async Task<IActionResult> Index()
         {
     
@@ -37,6 +38,8 @@ namespace RechargeApp.Controllers
         }
 
         // GET: Users/Details/5
+        [Authorize(Roles = "Admin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Users == null)
@@ -53,6 +56,7 @@ namespace RechargeApp.Controllers
 
             return View(user);
         }
+        [Authorize(Roles = "Admin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 
         // GET: Users/Create
         public IActionResult Create()
@@ -63,6 +67,8 @@ namespace RechargeApp.Controllers
         // POST: Users/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("id,Name,PhoneNumber,password,Role")] User user)
@@ -77,6 +83,9 @@ namespace RechargeApp.Controllers
         }
 
         // GET: Users/Edit/5
+        [Authorize(Roles = "User,Admin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+       // [Authorize(Roles = "Admin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Users == null)
@@ -95,6 +104,8 @@ namespace RechargeApp.Controllers
         // POST: Users/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("id,Name,PhoneNumber,password,Role")] User user)
@@ -128,6 +139,8 @@ namespace RechargeApp.Controllers
         }
 
         // GET: Users/Delete/5
+        [Authorize(Roles = "Admin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Users == null)
@@ -146,6 +159,8 @@ namespace RechargeApp.Controllers
         }
 
         // POST: Users/Delete/5
+        [Authorize(Roles = "Admin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -163,6 +178,8 @@ namespace RechargeApp.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        
 
         private bool UserExists(int id)
         {

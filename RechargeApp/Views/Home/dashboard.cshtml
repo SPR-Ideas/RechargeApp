@@ -2,6 +2,7 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    Layout = "~/Views/Shared/LayoutDashboard.cshtml";
 }
 @model RechargeApp.Models.PlanTable
 
@@ -110,6 +111,7 @@ tbody tr:hover {
     margin-top: 50px;
 }
 </style>
+<h5>Hi @ViewBag.user.Name</h5>
 
 <table class="table">
     <thead>
